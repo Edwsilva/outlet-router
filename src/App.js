@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Root from "./Root";
+import Expenses from "./routes/expenses";
+import Invoices from "./routes/invoices";
+import Invoice from "./routes/invoice";
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Root />}>
+          <Route path="expenses" element={<Expenses />} />
+          <Route path="invoices" element={<Invoices />}>
+            <Route
+              index
+              element={
+                <main style={{ padding: "1rem" }}>
+                  <p>Select an invoice</p>
+                </main>
+              }
+            />
+            <Route path=":invoiceId" element={<Invoice />} />
+          </Route>
+          <Route
+            path="*"
+            element={
+              <main style={{ padding: "1rem" }}>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
